@@ -11,7 +11,7 @@ class Player
 		@vel=Position.zero
 		@life=100.0
 		@dmg=4.3
-		@regen_rate=0.05
+		@regen_rate=0.01
 		@l=$rop
 		@color=0xff_00ff00
 		@buttons={Gosu::KbA => false, Gosu::KbD => false, Gosu::KbW => false, Gosu::KbS => false}
@@ -27,11 +27,10 @@ class Player
 	end
 	def update
 		@pos=Position.add(@pos,@vel)
-		@pos=Position.add(@pos,Position.new($winW,$winH))
-		@pos.x%=$winW
-		@pos.y%=$winH
-		check_presseds
+		@pos.x=[[@pos.x,$winW-1].min,0].max
+		@pos.y=[[@pos.y,$winH-1].min,0].max
 		@life=[@life+@regen_rate,100.0].min
+		check_presseds
 	end
 	def check_presseds()
 		a=0.35

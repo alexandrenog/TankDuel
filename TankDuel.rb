@@ -37,12 +37,11 @@ class TankDuel < Gosu::Window
 		while info = @serverSocket.gets.chomp.split(",")
 				obj_type=info[0].to_i
 				if obj_type==1
-					x,y,life=info[1].to_f,info[2].to_f,info[3].to_f
+					x,y,life=info[1..3].map(&:to_f)
 					@enemy.setP Position.new(x,y)
 					@enemy.life=life
 				elsif obj_type==2
-					x,y=info[1].to_f,info[2].to_f
-					vx,vy=info[3].to_f,info[4].to_f
+					x,y,vx,vy=info[1..4].map(&:to_f)
 					block=Block.new Position.new(x,y), Position.new(vx,vy), true # <<<< from_enemy
 					@blocks<<block
 				end
